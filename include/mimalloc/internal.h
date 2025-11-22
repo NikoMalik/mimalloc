@@ -302,23 +302,17 @@ bool _mi_page_is_valid(mi_page_t *page);
   For portability define undefined error codes using common Unix codes:
   <https://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html>
 ----------------------------------------------------------- */
-#include <errno.h>
-#ifndef EAGAIN // double free
-#define EAGAIN (11)
-#endif
-#ifndef ENOMEM // out of memory
-#define ENOMEM (12)
-#endif
-#ifndef EFAULT // corrupted free-list or meta-data
-#define EFAULT (14)
-#endif
-#ifndef EINVAL // trying to free an invalid pointer
-#define EINVAL (22)
-#endif
-#ifndef EOVERFLOW // count*size overflow
-#define EOVERFLOW (75)
-#endif
+#define MI_ERROR_DOUBLE_FREE (11)   // EAGAIN
+#define MI_ERROR_OUT_OF_MEMORY (12) // ENOMEM
+#define MI_ERROR_CORRUPTED (14)     // EFAULT
+#define MI_ERROR_INVALID_PTR (22)   // EINVAL
+#define MI_ERROR_OVERFLOW (75)      // EOVERFLOW
 
+#define EAGAIN MI_ERROR_DOUBLE_FREE
+#define ENOMEM MI_ERROR_OUT_OF_MEMORY
+#define EFAULT MI_ERROR_CORRUPTED
+#define EINVAL MI_ERROR_INVALID_PTR
+#define EOVERFLOW MI_ERROR_OVERFLOW
 // ------------------------------------------------------
 // Assertions
 // ------------------------------------------------------
@@ -362,9 +356,8 @@ mi_decl_noreturn mi_decl_cold void _mi_assert_fail(const char *assertion, const 
 #define MI_INIT256(x) MI_INIT128(x), MI_INIT128(x)
 #define MI_INIT74(x) MI_INIT64(x), MI_INIT8(x), x(), x()
 
-#include <string.h>
 // initialize a local variable to zero; use memset as compilers optimize constant sized memset's
-#define _mi_memzero_var(x) memset(&x, 0, sizeof(x))
+#define _mi_memzero_var(x) __builtin_memset(&x, 0, sizeof(x))
 
 // Is `x` a power of two? (0 is considered a power of two)
 static inline bool _mi_is_power_of_two(uintptr_t x) {
