@@ -7,7 +7,6 @@ terms of the MIT license. A copy of the license can be found in the file
 
 #error "documentation file only!"
 
-
 /*! \mainpage
 
 This is the API documentation of the
@@ -90,28 +89,26 @@ Further information:
 
 */
 
-
 /// \defgroup malloc Basic Allocation
 /// The basic allocation interface.
 /// \{
 
-
 /// Free previously allocated memory.
 /// The pointer `p` must have been allocated before (or be \a NULL).
 /// @param p  pointer to free, or \a NULL.
-void  mi_free(void* p);
+void mi_free(void *p);
 
 /// Allocate \a size bytes.
 /// @param size  number of bytes to allocate.
 /// @returns pointer to the allocated memory or \a NULL if out of memory.
 /// Returns a unique pointer if called with \a size 0.
-void* mi_malloc(size_t size);
+void *mi_malloc(size_t size);
 
 /// Allocate zero-initialized `size` bytes.
 /// @param size The size in bytes.
 /// @returns Pointer to newly allocated zero initialized memory,
 /// or \a NULL if out of memory.
-void* mi_zalloc(size_t size);
+void *mi_zalloc(size_t size);
 
 /// Allocate zero-initialized \a count elements of \a size bytes.
 /// @param count number of elements.
@@ -122,7 +119,7 @@ void* mi_zalloc(size_t size);
 ///
 /// Returns a unique pointer if called with either \a size or \a count of 0.
 /// @see mi_zalloc()
-void* mi_calloc(size_t count, size_t size);
+void *mi_calloc(size_t count, size_t size);
 
 /// Re-allocate memory to \a newsize bytes.
 /// @param p  pointer to previously allocated memory (or \a NULL).
@@ -136,7 +133,7 @@ void* mi_calloc(size_t count, size_t size);
 /// \a mi_malloc(\a newsize). If \a newsize is larger than the
 /// original \a size allocated for \a p, the bytes after \a size
 /// are uninitialized.
-void* mi_realloc(void* p, size_t newsize);
+void *mi_realloc(void *p, size_t newsize);
 
 /// Re-allocate memory to \a count elements of \a size bytes, with extra memory initialized to zero.
 /// @param p Pointer to a previously allocated block (or \a NULL).
@@ -148,7 +145,7 @@ void* mi_realloc(void* p, size_t newsize);
 /// If there is no overflow, it behaves exactly like `mi_rezalloc(p,count*size)`.
 /// @see mi_reallocn()
 /// @see [recallocarray()](http://man.openbsd.org/reallocarray) (on BSD).
-void* mi_recalloc(void* p, size_t count, size_t size);
+void *mi_recalloc(void *p, size_t count, size_t size);
 
 /// Try to re-allocate memory to \a newsize bytes _in place_.
 /// @param p  pointer to previously allocated memory (or \a NULL).
@@ -163,7 +160,7 @@ void* mi_recalloc(void* p, size_t count, size_t size);
 /// new size. If \a newsize is larger than the
 /// original \a size allocated for \a p, the bytes after \a size
 /// are uninitialized.
-void* mi_expand(void* p, size_t newsize);
+void *mi_expand(void *p, size_t newsize);
 
 /// Allocate \a count elements of \a size bytes.
 /// @param count The number of elements.
@@ -174,7 +171,7 @@ void* mi_expand(void* p, size_t newsize);
 /// If there is no overflow, it behaves exactly like `mi_malloc(count*size)`.
 /// @see mi_calloc()
 /// @see mi_zallocn()
-void* mi_mallocn(size_t count, size_t size);
+void *mi_mallocn(size_t count, size_t size);
 
 /// Re-allocate memory to \a count elements of \a size bytes.
 /// @param p Pointer to a previously allocated block (or \a NULL).
@@ -185,7 +182,7 @@ void* mi_mallocn(size_t count, size_t size);
 ///
 /// If there is no overflow, it behaves exactly like `mi_realloc(p,count*size)`.
 /// @see [reallocarray()](<http://man.openbsd.org/reallocarray>) (on BSD)
-void* mi_reallocn(void* p, size_t count, size_t size);
+void *mi_reallocn(void *p, size_t count, size_t size);
 
 /// Re-allocate memory to \a newsize bytes,
 /// @param p  pointer to previously allocated memory (or \a NULL).
@@ -203,8 +200,7 @@ void* mi_reallocn(void* p, size_t count, size_t size);
 /// are uninitialized.
 ///
 /// @see [reallocf](https://www.freebsd.org/cgi/man.cgi?query=reallocf) (on BSD)
-void* mi_reallocf(void* p, size_t newsize);
-
+void *mi_reallocf(void *p, size_t newsize);
 
 /// Allocate and duplicate a string.
 /// @param s string to duplicate (or \a NULL).
@@ -214,7 +210,7 @@ void* mi_reallocf(void* p, size_t newsize);
 ///
 /// Replacement for the standard [strdup()](http://pubs.opengroup.org/onlinepubs/9699919799/functions/strdup.html)
 /// such that mi_free() can be used on the returned result.
-char* mi_strdup(const char* s);
+char *mi_strdup(const char *s);
 
 /// Allocate and duplicate a string up to \a n bytes.
 /// @param s string to duplicate (or \a NULL).
@@ -225,7 +221,7 @@ char* mi_strdup(const char* s);
 ///
 /// Replacement for the standard [strndup()](http://pubs.opengroup.org/onlinepubs/9699919799/functions/strndup.html)
 /// such that mi_free() can be used on the returned result.
-char* mi_strndup(const char* s, size_t n);
+char *mi_strndup(const char *s, size_t n);
 
 /// Resolve a file path name.
 /// @param fname File name.
@@ -239,7 +235,7 @@ char* mi_strndup(const char* s, size_t n);
 ///
 /// Replacement for the standard [realpath()](http://pubs.opengroup.org/onlinepubs/9699919799/functions/realpath.html)
 /// such that mi_free() can be used on the returned result (if \a resolved_name was \a NULL).
-char* mi_realpath(const char* fname, char* resolved_name);
+// char* mi_realpath(const char* fname, char* resolved_name);
 
 /// \}
 
@@ -253,7 +249,7 @@ char* mi_realpath(const char* fname, char* resolved_name);
 
 /// Maximum size allowed for small allocations in
 /// #mi_malloc_small and #mi_zalloc_small (usually `128*sizeof(void*)` (= 1KB on 64-bit systems))
-#define MI_SMALL_SIZE_MAX   (128*sizeof(void*))
+#define MI_SMALL_SIZE_MAX (128 * sizeof(void *))
 
 /// Allocate a small object.
 /// @param size The size in bytes, can be at most #MI_SMALL_SIZE_MAX.
@@ -262,7 +258,7 @@ char* mi_realpath(const char* fname, char* resolved_name);
 /// This function is meant for use in run-time systems for best
 /// performance and does not check if \a size was indeed small -- use
 /// with care!
-void* mi_malloc_small(size_t size);
+void *mi_malloc_small(size_t size);
 
 /// Allocate a zero initialized small object.
 /// @param size The size in bytes, can be at most #MI_SMALL_SIZE_MAX.
@@ -271,7 +267,7 @@ void* mi_malloc_small(size_t size);
 /// This function is meant for use in run-time systems for best
 /// performance and does not check if \a size was indeed small -- use
 /// with care!
-void* mi_zalloc_small(size_t size);
+void *mi_zalloc_small(size_t size);
 
 /// Return the available bytes in a memory block.
 /// @param p Pointer to previously allocated memory (or \a NULL)
@@ -286,7 +282,7 @@ void* mi_zalloc_small(size_t size);
 /// @see [_msize](https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/msize?view=vs-2017) (Windows)
 /// @see [malloc_usable_size](http://man7.org/linux/man-pages/man3/malloc_usable_size.3.html) (Linux)
 /// @see mi_good_size()
-size_t mi_usable_size(void* p);
+size_t mi_usable_size(void *p);
 
 /// Return the used allocation size.
 /// @param size The minimal required size in bytes.
@@ -312,14 +308,14 @@ void mi_collect(bool force);
 /// @param out Ignored, outputs to the registered output function or stderr by default.
 ///
 /// Most detailed when using a debug build.
-void mi_stats_print(void* out);
+void mi_stats_print(void *out);
 
 /// Print the main statistics.
 /// @param out An output function or \a NULL for the default.
 /// @param arg Optional argument passed to \a out (if not \a NULL)
 ///
 /// Most detailed when using a debug build.
-void mi_stats_print_out(mi_output_fun* out, void* arg);
+void mi_stats_print_out(mi_output_fun *out, void *arg);
 
 /// Reset statistics.
 void mi_stats_reset(void);
@@ -343,7 +339,7 @@ void mi_thread_done(void);
 /// @param arg Optional argument passed to \a out (if not \a NULL)
 ///
 /// Most detailed when using a debug build.
-void mi_thread_stats_print_out(mi_output_fun* out, void* arg);
+void mi_thread_stats_print_out(mi_output_fun *out, void *arg);
 
 /// Type of deferred free functions.
 /// @param force If \a true all outstanding items should be freed.
@@ -351,7 +347,7 @@ void mi_thread_stats_print_out(mi_output_fun* out, void* arg);
 /// @param arg Argument that was passed at registration to hold extra state.
 ///
 /// @see mi_register_deferred_free
-typedef void (mi_deferred_free_fun)(bool force, unsigned long long heartbeat, void* arg);
+typedef void(mi_deferred_free_fun)(bool force, unsigned long long heartbeat, void *arg);
 
 /// Register a deferred free function.
 /// @param deferred_free Address of a deferred free-ing function or \a NULL to unregister.
@@ -368,14 +364,14 @@ typedef void (mi_deferred_free_fun)(bool force, unsigned long long heartbeat, vo
 /// to be called deterministically after some number of allocations
 /// (regardless of freeing or available free memory).
 /// At most one \a deferred_free function can be active.
-void   mi_register_deferred_free(mi_deferred_free_fun* deferred_free, void* arg);
+void mi_register_deferred_free(mi_deferred_free_fun *deferred_free, void *arg);
 
 /// Type of output functions.
 /// @param msg Message to output.
 /// @param arg Argument that was passed at registration to hold extra state.
 ///
 /// @see mi_register_output()
-typedef void (mi_output_fun)(const char* msg, void* arg);
+typedef void(mi_output_fun)(const char *msg, void *arg);
 
 /// Register an output function.
 /// @param out The output function, use `NULL` to output to stderr.
@@ -383,14 +379,14 @@ typedef void (mi_output_fun)(const char* msg, void* arg);
 ///
 /// The `out` function is called to output any information from mimalloc,
 /// like verbose or warning messages.
-void mi_register_output(mi_output_fun* out, void* arg);
+void mi_register_output(mi_output_fun *out, void *arg);
 
 /// Type of error callback functions.
 /// @param err Error code (see mi_register_error() for a complete list).
 /// @param arg Argument that was passed at registration to hold extra state.
 ///
 /// @see mi_register_error()
-typedef void (mi_error_fun)(int err, void* arg);
+typedef void(mi_error_fun)(int err, void *arg);
 
 /// Register an error callback function.
 /// @param errfun The error function that is called on an error (use \a NULL for default)
@@ -407,13 +403,13 @@ typedef void (mi_error_fun)(int err, void* arg);
 /// * \a ENOMEM: Not enough memory available to satisfy the request.
 /// * \a EOVERFLOW: Too large a request, for example in mi_calloc(), the \a count and \a size parameters are too large.
 /// * \a EINVAL: Trying to free or re-allocate an invalid pointer.
-void mi_register_error(mi_error_fun* errfun, void* arg);
+void mi_register_error(mi_error_fun *errfun, void *arg);
 
 /// Is a pointer part of our heap?
 /// @param p The pointer to check.
 /// @returns \a true if this is a pointer into our heap.
 /// This function is relatively fast.
-bool mi_is_in_heap_region(const void* p);
+bool mi_is_in_heap_region(const void *p);
 
 /// Reserve OS memory for use by mimalloc. Reserved areas are used
 /// before allocating from the OS again. By reserving a large area upfront,
@@ -423,7 +419,7 @@ bool mi_is_in_heap_region(const void* p);
 /// @param commit      Commit the memory upfront.
 /// @param allow_large Allow large OS pages (2MiB) to be used?
 /// @return \a 0 if successful, and an error code otherwise (e.g. `ENOMEM`).
-int  mi_reserve_os_memory(size_t size, bool commit, bool allow_large);
+int mi_reserve_os_memory(size_t size, bool commit, bool allow_large);
 
 /// Manage a particular memory area for use by mimalloc.
 /// This is just like `mi_reserve_os_memory` except that the area should already be
@@ -436,7 +432,7 @@ int  mi_reserve_os_memory(size_t size, bool commit, bool allow_large);
 /// @param is_zero     Does the area consists of zero's?
 /// @param numa_node   Possible associated numa node or `-1`.
 /// @return \a true if successful, and \a false on error.
-bool mi_manage_os_memory(void* start, size_t size, bool is_committed, bool is_large, bool is_zero, int numa_node);
+bool mi_manage_os_memory(void *start, size_t size, bool is_committed, bool is_large, bool is_zero, int numa_node);
 
 /// Reserve \a pages of huge OS pages (1GiB) evenly divided over \a numa_nodes nodes,
 /// but stops after at most `timeout_msecs` seconds.
@@ -466,7 +462,6 @@ int mi_reserve_huge_os_pages_interleave(size_t pages, size_t numa_nodes, size_t 
 /// fragmented.
 int mi_reserve_huge_os_pages_at(size_t pages, int numa_node, size_t timeout_msecs);
 
-
 /// Is the C runtime \a malloc API redirected?
 /// @returns \a true if all malloc API calls are redirected to mimalloc.
 ///
@@ -486,7 +481,7 @@ bool mi_is_redirected();
 /// The \a current_rss is precise on Windows and MacOSX; other systems estimate
 /// this using \a current_commit. The \a commit is precise on Windows but estimated
 /// on other systems as the amount of read/write accessible memory reserved by mimalloc.
-void mi_process_info(size_t* elapsed_msecs, size_t* user_msecs, size_t* system_msecs, size_t* current_rss, size_t* peak_rss, size_t* current_commit, size_t* peak_commit, size_t* page_faults);
+void mi_process_info(size_t *elapsed_msecs, size_t *user_msecs, size_t *system_msecs, size_t *current_rss, size_t *peak_rss, size_t *current_commit, size_t *peak_commit, size_t *page_faults);
 
 /// @brief Show all current arena's.
 /// @param show_inuse       Show the arena blocks that are in use.
@@ -502,7 +497,7 @@ typedef int mi_arena_id_t;
 /// @param arena_id  The arena identifier.
 /// @param size      Returned size in bytes of the (virtual) arena area.
 /// @return base address of the arena.
-void* mi_arena_area(mi_arena_id_t arena_id, size_t* size);
+void *mi_arena_area(mi_arena_id_t arena_id, size_t *size);
 
 /// @brief Reserve huge OS pages (1GiB) into a single arena.
 /// @param pages             Number of 1GiB pages to reserve.
@@ -511,7 +506,7 @@ void* mi_arena_area(mi_arena_id_t arena_id, size_t* size);
 /// @param exclusive         If exclusive, only a heap associated with this arena can allocate in it.
 /// @param arena_id          The arena identifier.
 /// @return 0 if successful, \a ENOMEM if running out of memory, or \a ETIMEDOUT if timed out.
-int   mi_reserve_huge_os_pages_at_ex(size_t pages, int numa_node, size_t timeout_msecs, bool exclusive, mi_arena_id_t* arena_id);
+int mi_reserve_huge_os_pages_at_ex(size_t pages, int numa_node, size_t timeout_msecs, bool exclusive, mi_arena_id_t *arena_id);
 
 /// @brief Reserve OS memory to be managed in an arena.
 /// @param size Size the reserve.
@@ -520,7 +515,7 @@ int   mi_reserve_huge_os_pages_at_ex(size_t pages, int numa_node, size_t timeout
 /// @param exclusive  Is the returned arena exclusive?
 /// @param arena_id The new arena identifier.
 /// @return Zero on success, an error code otherwise.
-int   mi_reserve_os_memory_ex(size_t size, bool commit, bool allow_large, bool exclusive, mi_arena_id_t* arena_id);
+int mi_reserve_os_memory_ex(size_t size, bool commit, bool allow_large, bool exclusive, mi_arena_id_t *arena_id);
 
 /// @brief Manage externally allocated memory as a mimalloc arena. This memory will not be freed by mimalloc.
 /// @param start Start address of the area.
@@ -532,12 +527,12 @@ int   mi_reserve_os_memory_ex(size_t size, bool commit, bool allow_large, bool e
 /// @param exclusive     Is the arena exclusive (where only heaps associated with the arena can allocate in it)
 /// @param arena_id      The new arena identifier.
 /// @return `true` if successful.
-bool  mi_manage_os_memory_ex(void* start, size_t size, bool is_committed, bool is_large, bool is_zero, int numa_node, bool exclusive, mi_arena_id_t* arena_id);
+bool mi_manage_os_memory_ex(void *start, size_t size, bool is_committed, bool is_large, bool is_zero, int numa_node, bool exclusive, mi_arena_id_t *arena_id);
 
 /// @brief Create a new heap that only allocates in the specified arena.
 /// @param arena_id The arena identifier.
 /// @return The new heap or `NULL`.
-mi_heap_t* mi_heap_new_in_arena(mi_arena_id_t arena_id);
+mi_heap_t *mi_heap_new_in_arena(mi_arena_id_t arena_id);
 
 /// @brief Create a new heap
 /// @param heap_tag       The heap tag associated with this heap; heaps only reclaim memory between heaps with the same tag.
@@ -549,12 +544,12 @@ mi_heap_t* mi_heap_new_in_arena(mi_arena_id_t arena_id);
 /// This is used for example for a compressed pointer heap in Koka.
 /// The \a heap_tag enables heaps to keep objects of a certain type isolated to heaps with that tag.
 /// This is used for example in the CPython integration.
-mi_heap_t* mi_heap_new_ex(int heap_tag, bool allow_destroy, mi_arena_id_t arena_id);
+mi_heap_t *mi_heap_new_ex(int heap_tag, bool allow_destroy, mi_arena_id_t arena_id);
 
 /// A process can associate threads with sub-processes.
 /// A sub-process will not reclaim memory from (abandoned heaps/threads)
 /// other subprocesses.
-typedef void* mi_subproc_id_t;
+typedef void *mi_subproc_id_t;
 
 /// @brief  Get the main sub-process identifier.
 mi_subproc_id_t mi_subproc_main(void);
@@ -571,7 +566,6 @@ void mi_subproc_delete(mi_subproc_id_t subproc);
 /// Add the current thread to the given sub-process.
 /// This should be called right after a thread is created (and no allocation has taken place yet)
 void mi_subproc_add_current_thread(mi_subproc_id_t subproc);
-
 
 /// \}
 
@@ -604,10 +598,10 @@ void mi_subproc_add_current_thread(mi_subproc_id_t subproc);
 /// @see [aligned_alloc](http://man.openbsd.org/reallocarray) (on BSD, with switched arguments!)
 /// @see [posix_memalign](https://linux.die.net/man/3/posix_memalign) (on Posix, with switched arguments!)
 /// @see [memalign](https://linux.die.net/man/3/posix_memalign) (on Linux, with switched arguments!)
-void* mi_malloc_aligned(size_t size, size_t alignment);
-void* mi_zalloc_aligned(size_t size, size_t alignment);
-void* mi_calloc_aligned(size_t count, size_t size, size_t alignment);
-void* mi_realloc_aligned(void* p, size_t newsize, size_t alignment);
+void *mi_malloc_aligned(size_t size, size_t alignment);
+void *mi_zalloc_aligned(size_t size, size_t alignment);
+void *mi_calloc_aligned(size_t count, size_t size, size_t alignment);
+void *mi_realloc_aligned(void *p, size_t newsize, size_t alignment);
 
 /// Allocate \a size bytes aligned by \a alignment at a specified \a offset.
 /// @param size  number of bytes to allocate.
@@ -620,10 +614,10 @@ void* mi_realloc_aligned(void* p, size_t newsize, size_t alignment);
 /// Returns a unique pointer if called with \a size 0.
 ///
 /// @see [_aligned_offset_malloc](https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/aligned-offset-malloc?view=vs-2017) (on Windows)
-void* mi_malloc_aligned_at(size_t size, size_t alignment, size_t offset);
-void* mi_zalloc_aligned_at(size_t size, size_t alignment, size_t offset);
-void* mi_calloc_aligned_at(size_t count, size_t size, size_t alignment, size_t offset);
-void* mi_realloc_aligned_at(void* p, size_t newsize, size_t alignment, size_t offset);
+void *mi_malloc_aligned_at(size_t size, size_t alignment, size_t offset);
+void *mi_zalloc_aligned_at(size_t size, size_t alignment, size_t offset);
+void *mi_calloc_aligned_at(size_t count, size_t size, size_t alignment, size_t offset);
+void *mi_realloc_aligned_at(void *p, size_t newsize, size_t alignment, size_t offset);
 
 /// \}
 
@@ -646,7 +640,7 @@ struct mi_heap_s;
 typedef struct mi_heap_s mi_heap_t;
 
 /// Create a new heap that can be used for allocation.
-mi_heap_t* mi_heap_new();
+mi_heap_t *mi_heap_new();
 
 /// Delete a previously allocated heap.
 /// This will release resources and migrate any
@@ -655,7 +649,7 @@ mi_heap_t* mi_heap_new();
 ///
 /// If \a heap is the default heap, the default
 /// heap is set to the backing heap.
-void mi_heap_delete(mi_heap_t* heap);
+void mi_heap_delete(mi_heap_t *heap);
 
 /// Destroy a heap, freeing all its still allocated blocks.
 /// Use with care as this will free all blocks still
@@ -664,75 +658,74 @@ void mi_heap_delete(mi_heap_t* heap);
 ///
 /// If \a heap is the default heap, the default
 /// heap is set to the backing heap.
-void mi_heap_destroy(mi_heap_t* heap);
+void mi_heap_destroy(mi_heap_t *heap);
 
 /// Set the default heap to use in the current thread for mi_malloc() et al.
 /// @param heap  The new default heap.
 /// @returns The previous default heap.
-mi_heap_t* mi_heap_set_default(mi_heap_t* heap);
+mi_heap_t *mi_heap_set_default(mi_heap_t *heap);
 
 /// Get the default heap that is used for mi_malloc() et al. (for the current thread).
 /// @returns The current default heap.
-mi_heap_t* mi_heap_get_default();
+mi_heap_t *mi_heap_get_default();
 
 /// Get the backing heap.
 /// The _backing_ heap is the initial default heap for
 /// a thread and always available for allocations.
 /// It cannot be destroyed or deleted
 /// except by exiting the thread.
-mi_heap_t* mi_heap_get_backing();
+mi_heap_t *mi_heap_get_backing();
 
 /// Release outstanding resources in a specific heap.
-void mi_heap_collect(mi_heap_t* heap, bool force);
+void mi_heap_collect(mi_heap_t *heap, bool force);
 
 /// Allocate in a specific heap.
 /// @see mi_malloc()
-void* mi_heap_malloc(mi_heap_t* heap, size_t size);
+void *mi_heap_malloc(mi_heap_t *heap, size_t size);
 
 /// Allocate a small object in a specific heap.
 /// \a size must be smaller or equal to MI_SMALL_SIZE_MAX().
 /// @see mi_malloc()
-void* mi_heap_malloc_small(mi_heap_t* heap, size_t size);
+void *mi_heap_malloc_small(mi_heap_t *heap, size_t size);
 
 /// Allocate zero-initialized in a specific heap.
 /// @see mi_zalloc()
-void* mi_heap_zalloc(mi_heap_t* heap, size_t size);
+void *mi_heap_zalloc(mi_heap_t *heap, size_t size);
 
 /// Allocate \a count zero-initialized elements in a specific heap.
 /// @see mi_calloc()
-void* mi_heap_calloc(mi_heap_t* heap, size_t count, size_t size);
+void *mi_heap_calloc(mi_heap_t *heap, size_t count, size_t size);
 
 /// Allocate \a count elements in a specific heap.
 /// @see mi_mallocn()
-void* mi_heap_mallocn(mi_heap_t* heap, size_t count, size_t size);
+void *mi_heap_mallocn(mi_heap_t *heap, size_t count, size_t size);
 
 /// Duplicate a string in a specific heap.
 /// @see mi_strdup()
-char* mi_heap_strdup(mi_heap_t* heap, const char* s);
+char *mi_heap_strdup(mi_heap_t *heap, const char *s);
 
 /// Duplicate a string of at most length \a n in a specific heap.
 /// @see mi_strndup()
-char* mi_heap_strndup(mi_heap_t* heap, const char* s, size_t n);
+char *mi_heap_strndup(mi_heap_t *heap, const char *s, size_t n);
 
 /// Resolve a file path name using a specific \a heap to allocate the result.
 /// @see mi_realpath()
-char* mi_heap_realpath(mi_heap_t* heap, const char* fname, char* resolved_name);
+// char *mi_heap_realpath(mi_heap_t *heap, const char *fname, char *resolved_name);
 
-void* mi_heap_realloc(mi_heap_t* heap, void* p, size_t newsize);
-void* mi_heap_reallocn(mi_heap_t* heap, void* p, size_t count, size_t size);
-void* mi_heap_reallocf(mi_heap_t* heap, void* p, size_t newsize);
+void *mi_heap_realloc(mi_heap_t *heap, void *p, size_t newsize);
+void *mi_heap_reallocn(mi_heap_t *heap, void *p, size_t count, size_t size);
+void *mi_heap_reallocf(mi_heap_t *heap, void *p, size_t newsize);
 
-void* mi_heap_malloc_aligned(mi_heap_t* heap, size_t size, size_t alignment);
-void* mi_heap_malloc_aligned_at(mi_heap_t* heap, size_t size, size_t alignment, size_t offset);
-void* mi_heap_zalloc_aligned(mi_heap_t* heap, size_t size, size_t alignment);
-void* mi_heap_zalloc_aligned_at(mi_heap_t* heap, size_t size, size_t alignment, size_t offset);
-void* mi_heap_calloc_aligned(mi_heap_t* heap, size_t count, size_t size, size_t alignment);
-void* mi_heap_calloc_aligned_at(mi_heap_t* heap, size_t count, size_t size, size_t alignment, size_t offset);
-void* mi_heap_realloc_aligned(mi_heap_t* heap, void* p, size_t newsize, size_t alignment);
-void* mi_heap_realloc_aligned_at(mi_heap_t* heap, void* p, size_t newsize, size_t alignment, size_t offset);
+void *mi_heap_malloc_aligned(mi_heap_t *heap, size_t size, size_t alignment);
+void *mi_heap_malloc_aligned_at(mi_heap_t *heap, size_t size, size_t alignment, size_t offset);
+void *mi_heap_zalloc_aligned(mi_heap_t *heap, size_t size, size_t alignment);
+void *mi_heap_zalloc_aligned_at(mi_heap_t *heap, size_t size, size_t alignment, size_t offset);
+void *mi_heap_calloc_aligned(mi_heap_t *heap, size_t count, size_t size, size_t alignment);
+void *mi_heap_calloc_aligned_at(mi_heap_t *heap, size_t count, size_t size, size_t alignment, size_t offset);
+void *mi_heap_realloc_aligned(mi_heap_t *heap, void *p, size_t newsize, size_t alignment);
+void *mi_heap_realloc_aligned_at(mi_heap_t *heap, void *p, size_t newsize, size_t alignment, size_t offset);
 
 /// \}
-
 
 /// \defgroup zeroinit Zero initialized re-allocation
 ///
@@ -743,21 +736,21 @@ void* mi_heap_realloc_aligned_at(mi_heap_t* heap, void* p, size_t newsize, size_
 ///
 /// \{
 
-void* mi_rezalloc(void* p, size_t newsize);
-void* mi_recalloc(void* p, size_t newcount, size_t size) ;
+void *mi_rezalloc(void *p, size_t newsize);
+void *mi_recalloc(void *p, size_t newcount, size_t size);
 
-void* mi_rezalloc_aligned(void* p, size_t newsize, size_t alignment);
-void* mi_rezalloc_aligned_at(void* p, size_t newsize, size_t alignment, size_t offset);
-void* mi_recalloc_aligned(void* p, size_t newcount, size_t size, size_t alignment);
-void* mi_recalloc_aligned_at(void* p, size_t newcount, size_t size, size_t alignment, size_t offset);
+void *mi_rezalloc_aligned(void *p, size_t newsize, size_t alignment);
+void *mi_rezalloc_aligned_at(void *p, size_t newsize, size_t alignment, size_t offset);
+void *mi_recalloc_aligned(void *p, size_t newcount, size_t size, size_t alignment);
+void *mi_recalloc_aligned_at(void *p, size_t newcount, size_t size, size_t alignment, size_t offset);
 
-void* mi_heap_rezalloc(mi_heap_t* heap, void* p, size_t newsize);
-void* mi_heap_recalloc(mi_heap_t* heap, void* p, size_t newcount, size_t size);
+void *mi_heap_rezalloc(mi_heap_t *heap, void *p, size_t newsize);
+void *mi_heap_recalloc(mi_heap_t *heap, void *p, size_t newcount, size_t size);
 
-void* mi_heap_rezalloc_aligned(mi_heap_t* heap, void* p, size_t newsize, size_t alignment);
-void* mi_heap_rezalloc_aligned_at(mi_heap_t* heap, void* p, size_t newsize, size_t alignment, size_t offset);
-void* mi_heap_recalloc_aligned(mi_heap_t* heap, void* p, size_t newcount, size_t size, size_t alignment);
-void* mi_heap_recalloc_aligned_at(mi_heap_t* heap, void* p, size_t newcount, size_t size, size_t alignment, size_t offset);
+void *mi_heap_rezalloc_aligned(mi_heap_t *heap, void *p, size_t newsize, size_t alignment);
+void *mi_heap_rezalloc_aligned_at(mi_heap_t *heap, void *p, size_t newsize, size_t alignment, size_t offset);
+void *mi_heap_recalloc_aligned(mi_heap_t *heap, void *p, size_t newcount, size_t size, size_t alignment);
+void *mi_heap_recalloc_aligned_at(mi_heap_t *heap, void *p, size_t newcount, size_t size, size_t alignment, size_t offset);
 
 /// \}
 
@@ -781,37 +774,37 @@ void* mi_heap_recalloc_aligned_at(mi_heap_t* heap, void* p, size_t newcount, siz
 /// ```
 ///
 /// @see mi_malloc()
-#define mi_malloc_tp(tp)        ((tp*)mi_malloc(sizeof(tp)))
+#define mi_malloc_tp(tp) ((tp *)mi_malloc(sizeof(tp)))
 
 /// Allocate a zero-initialized block of type \a tp.
-#define mi_zalloc_tp(tp)        ((tp*)mi_zalloc(sizeof(tp)))
+#define mi_zalloc_tp(tp) ((tp *)mi_zalloc(sizeof(tp)))
 
 /// Allocate \a count zero-initialized blocks of type \a tp.
-#define mi_calloc_tp(tp,count)      ((tp*)mi_calloc(count,sizeof(tp)))
+#define mi_calloc_tp(tp, count) ((tp *)mi_calloc(count, sizeof(tp)))
 
 /// Allocate \a count blocks of type \a tp.
-#define mi_mallocn_tp(tp,count)     ((tp*)mi_mallocn(count,sizeof(tp)))
+#define mi_mallocn_tp(tp, count) ((tp *)mi_mallocn(count, sizeof(tp)))
 
 /// Re-allocate to \a count blocks of type \a tp.
-#define mi_reallocn_tp(p,tp,count)  ((tp*)mi_reallocn(p,count,sizeof(tp)))
+#define mi_reallocn_tp(p, tp, count) ((tp *)mi_reallocn(p, count, sizeof(tp)))
 
 /// Allocate a block of type \a tp in a heap \a hp.
-#define mi_heap_malloc_tp(hp,tp)        ((tp*)mi_heap_malloc(hp,sizeof(tp)))
+#define mi_heap_malloc_tp(hp, tp) ((tp *)mi_heap_malloc(hp, sizeof(tp)))
 
 /// Allocate a zero-initialized block of type \a tp in a heap \a hp.
-#define mi_heap_zalloc_tp(hp,tp)        ((tp*)mi_heap_zalloc(hp,sizeof(tp)))
+#define mi_heap_zalloc_tp(hp, tp) ((tp *)mi_heap_zalloc(hp, sizeof(tp)))
 
 /// Allocate \a count zero-initialized blocks of type \a tp in a heap \a hp.
-#define mi_heap_calloc_tp(hp,tp,count)      ((tp*)mi_heap_calloc(hp,count,sizeof(tp)))
+#define mi_heap_calloc_tp(hp, tp, count) ((tp *)mi_heap_calloc(hp, count, sizeof(tp)))
 
 /// Allocate \a count blocks of type \a tp in a heap \a hp.
-#define mi_heap_mallocn_tp(hp,tp,count)     ((tp*)mi_heap_mallocn(hp,count,sizeof(tp)))
+#define mi_heap_mallocn_tp(hp, tp, count) ((tp *)mi_heap_mallocn(hp, count, sizeof(tp)))
 
 /// Re-allocate to \a count blocks of type \a tp in a heap \a hp.
-#define mi_heap_reallocn_tp(hp,p,tp,count)  ((tp*)mi_heap_reallocn(p,count,sizeof(tp)))
+#define mi_heap_reallocn_tp(hp, p, tp, count) ((tp *)mi_heap_reallocn(p, count, sizeof(tp)))
 
 /// Re-allocate to \a count zero initialized blocks of type \a tp in a heap \a hp.
-#define mi_heap_recalloc_tp(hp,p,tp,count)  ((tp*)mi_heap_recalloc(p,count,sizeof(tp)))
+#define mi_heap_recalloc_tp(hp, p, tp, count) ((tp *)mi_heap_recalloc(p, count, sizeof(tp)))
 
 /// \}
 
@@ -827,7 +820,7 @@ void* mi_heap_recalloc_aligned_at(mi_heap_t* heap, void* p, size_t newcount, siz
 ///          random pointer!
 /// @returns \a true if the block pointed to by \a p is in the \a heap.
 /// @see mi_heap_check_owned()
-bool mi_heap_contains_block(mi_heap_t* heap, const void* p);
+bool mi_heap_contains_block(mi_heap_t *heap, const void *p);
 
 /// Check safely if any pointer is part of a heap.
 /// @param heap The heap.
@@ -837,7 +830,7 @@ bool mi_heap_contains_block(mi_heap_t* heap, const void* p);
 /// Note: expensive function, linear in the pages in the heap.
 /// @see mi_heap_contains_block()
 /// @see mi_heap_get_default()
-bool mi_heap_check_owned(mi_heap_t* heap, const void* p);
+bool mi_heap_check_owned(mi_heap_t *heap, const void *p);
 
 /// Check safely if any pointer is part of the default heap of this thread.
 /// @param p   Any pointer -- not required to be previously allocated by us.
@@ -846,18 +839,18 @@ bool mi_heap_check_owned(mi_heap_t* heap, const void* p);
 /// Note: expensive function, linear in the pages in the heap.
 /// @see mi_heap_contains_block()
 /// @see mi_heap_get_default()
-bool mi_check_owned(const void* p);
+bool mi_check_owned(const void *p);
 
 /// An area of heap space contains blocks of a single size.
 /// The bytes in freed blocks are `committed - used`.
 typedef struct mi_heap_area_s {
-  void*  blocks;      ///< start of the area containing heap blocks
-  size_t reserved;    ///< bytes reserved for this area
-  size_t committed;   ///< current committed bytes of this area
-  size_t used;        ///< bytes in use by allocated blocks
-  size_t block_size;  ///< size in bytes of one block
-  size_t full_block_size; ///< size in bytes of a full block including padding and metadata.
-  int    heap_tag;    ///< heap tag associated with this area (see \a mi_heap_new_ex)
+    void *blocks;           ///< start of the area containing heap blocks
+    size_t reserved;        ///< bytes reserved for this area
+    size_t committed;       ///< current committed bytes of this area
+    size_t used;            ///< bytes in use by allocated blocks
+    size_t block_size;      ///< size in bytes of one block
+    size_t full_block_size; ///< size in bytes of a full block including padding and metadata.
+    int heap_tag;           ///< heap tag associated with this area (see \a mi_heap_new_ex)
 } mi_heap_area_t;
 
 /// Visitor function passed to mi_heap_visit_blocks()
@@ -867,7 +860,7 @@ typedef struct mi_heap_area_s {
 /// with \a block as a \a NULL pointer. If \a visit_all_blocks
 /// was \a true, the function is then called for every allocated
 /// block in that area.
-typedef bool (mi_block_visit_fun)(const mi_heap_t* heap, const mi_heap_area_t* area, void* block, size_t block_size, void* arg);
+typedef bool(mi_block_visit_fun)(const mi_heap_t *heap, const mi_heap_area_t *area, void *block, size_t block_size, void *arg);
 
 /// Visit all areas and blocks in a heap.
 /// @param heap The heap to visit.
@@ -880,7 +873,7 @@ typedef bool (mi_block_visit_fun)(const mi_heap_t* heap, const mi_heap_area_t* a
 ///                 return \a false from this function to stop visiting early.
 /// @param arg Extra argument passed to \a visitor.
 /// @returns \a true if all areas and blocks were visited.
-bool mi_heap_visit_blocks(const mi_heap_t* heap, bool visit_all_blocks, mi_block_visit_fun* visitor, void* arg);
+bool mi_heap_visit_blocks(const mi_heap_t *heap, bool visit_all_blocks, mi_block_visit_fun *visitor, void *arg);
 
 /// @brief Visit all areas and blocks in abandoned heaps.
 /// @param subproc_id The sub-process id associated with the abandoned heaps.
@@ -897,7 +890,7 @@ bool mi_heap_visit_blocks(const mi_heap_t* heap, bool visit_all_blocks, mi_block
 ///
 /// Note: requires the option `mi_option_visit_abandoned` to be set
 /// at the start of the program.
-bool mi_abandoned_visit_blocks(mi_subproc_id_t subproc_id, int heap_tag, bool visit_blocks, mi_block_visit_fun* visitor, void* arg);
+bool mi_abandoned_visit_blocks(mi_subproc_id_t subproc_id, int heap_tag, bool visit_blocks, mi_block_visit_fun *visitor, void *arg);
 
 /// \}
 
@@ -909,57 +902,55 @@ bool mi_abandoned_visit_blocks(mi_subproc_id_t subproc_id, int heap_tag, bool vi
 
 /// Runtime options.
 typedef enum mi_option_e {
-  // stable options
-  mi_option_show_errors,  ///< Print error messages.
-  mi_option_show_stats,   ///< Print statistics on termination.
-  mi_option_verbose,      ///< Print verbose messages.
-  mi_option_max_errors,                 ///< issue at most N error messages
-  mi_option_max_warnings,               ///< issue at most N warning messages
+    // stable options
+    mi_option_show_errors,  ///< Print error messages.
+    mi_option_show_stats,   ///< Print statistics on termination.
+    mi_option_verbose,      ///< Print verbose messages.
+    mi_option_max_errors,   ///< issue at most N error messages
+    mi_option_max_warnings, ///< issue at most N warning messages
 
-  // advanced options
-  mi_option_reserve_huge_os_pages,    ///< reserve N huge OS pages (1GiB pages) at startup
-  mi_option_reserve_huge_os_pages_at, ///< Reserve N huge OS pages at a specific NUMA node N.
-  mi_option_reserve_os_memory,        ///< reserve specified amount of OS memory in an arena at startup (internally, this value is in KiB; use `mi_option_get_size`)
-  mi_option_allow_large_os_pages,     ///< allow large (2 or 4 MiB) OS pages, implies eager commit. If false, also disables THP for the process.
-  mi_option_purge_decommits,          ///< should a memory purge decommit? (=1). Set to 0 to use memory reset on a purge (instead of decommit)
-  mi_option_arena_reserve,            ///< initial memory size for arena reservation (= 1 GiB on 64-bit) (internally, this value is in KiB; use `mi_option_get_size`)
-  mi_option_os_tag,                   ///< tag used for OS logging (macOS only for now) (=100)
-  mi_option_retry_on_oom,             ///< retry on out-of-memory for N milli seconds (=400), set to 0 to disable retries. (only on windows)
+    // advanced options
+    mi_option_reserve_huge_os_pages,    ///< reserve N huge OS pages (1GiB pages) at startup
+    mi_option_reserve_huge_os_pages_at, ///< Reserve N huge OS pages at a specific NUMA node N.
+    mi_option_reserve_os_memory,        ///< reserve specified amount of OS memory in an arena at startup (internally, this value is in KiB; use `mi_option_get_size`)
+    mi_option_allow_large_os_pages,     ///< allow large (2 or 4 MiB) OS pages, implies eager commit. If false, also disables THP for the process.
+    mi_option_purge_decommits,          ///< should a memory purge decommit? (=1). Set to 0 to use memory reset on a purge (instead of decommit)
+    mi_option_arena_reserve,            ///< initial memory size for arena reservation (= 1 GiB on 64-bit) (internally, this value is in KiB; use `mi_option_get_size`)
+    mi_option_os_tag,                   ///< tag used for OS logging (macOS only for now) (=100)
+    mi_option_retry_on_oom,             ///< retry on out-of-memory for N milli seconds (=400), set to 0 to disable retries. (only on windows)
 
-  // experimental options
-  mi_option_eager_commit,             ///< eager commit segments? (after `eager_commit_delay` segments) (enabled by default).
-  mi_option_eager_commit_delay,       ///< the first N segments per thread are not eagerly committed (but per page in the segment on demand)
-  mi_option_arena_eager_commit,       ///< eager commit arenas? Use 2 to enable just on overcommit systems (=2)
-  mi_option_abandoned_page_purge,     ///< immediately purge delayed purges on thread termination
-  mi_option_purge_delay,              ///< memory purging is delayed by N milli seconds; use 0 for immediate purging or -1 for no purging at all. (=10)
-  mi_option_use_numa_nodes,           ///< 0 = use all available numa nodes, otherwise use at most N nodes.
-  mi_option_disallow_os_alloc,        ///< 1 = do not use OS memory for allocation (but only programmatically reserved arenas)
-  mi_option_limit_os_alloc,           ///< If set to 1, do not use OS memory for allocation (but only pre-reserved arenas)
-  mi_option_max_segment_reclaim,        ///< max. percentage of the abandoned segments can be reclaimed per try (=10%)
-  mi_option_destroy_on_exit,            ///< if set, release all memory on exit; sometimes used for dynamic unloading but can be unsafe
-  mi_option_arena_purge_mult,           ///< multiplier for `purge_delay` for the purging delay for arenas (=10)
-  mi_option_abandoned_reclaim_on_free,  ///< allow to reclaim an abandoned segment on a free (=1)
-  mi_option_purge_extend_delay,         ///< extend purge delay on each subsequent delay (=1)
-  mi_option_disallow_arena_alloc,       ///< 1 = do not use arena's for allocation (except if using specific arena id's)
-  mi_option_visit_abandoned,            ///< allow visiting heap blocks from abandoned threads (=0)
+    // experimental options
+    mi_option_eager_commit,              ///< eager commit segments? (after `eager_commit_delay` segments) (enabled by default).
+    mi_option_eager_commit_delay,        ///< the first N segments per thread are not eagerly committed (but per page in the segment on demand)
+    mi_option_arena_eager_commit,        ///< eager commit arenas? Use 2 to enable just on overcommit systems (=2)
+    mi_option_abandoned_page_purge,      ///< immediately purge delayed purges on thread termination
+    mi_option_purge_delay,               ///< memory purging is delayed by N milli seconds; use 0 for immediate purging or -1 for no purging at all. (=10)
+    mi_option_use_numa_nodes,            ///< 0 = use all available numa nodes, otherwise use at most N nodes.
+    mi_option_disallow_os_alloc,         ///< 1 = do not use OS memory for allocation (but only programmatically reserved arenas)
+    mi_option_limit_os_alloc,            ///< If set to 1, do not use OS memory for allocation (but only pre-reserved arenas)
+    mi_option_max_segment_reclaim,       ///< max. percentage of the abandoned segments can be reclaimed per try (=10%)
+    mi_option_destroy_on_exit,           ///< if set, release all memory on exit; sometimes used for dynamic unloading but can be unsafe
+    mi_option_arena_purge_mult,          ///< multiplier for `purge_delay` for the purging delay for arenas (=10)
+    mi_option_abandoned_reclaim_on_free, ///< allow to reclaim an abandoned segment on a free (=1)
+    mi_option_purge_extend_delay,        ///< extend purge delay on each subsequent delay (=1)
+    mi_option_disallow_arena_alloc,      ///< 1 = do not use arena's for allocation (except if using specific arena id's)
+    mi_option_visit_abandoned,           ///< allow visiting heap blocks from abandoned threads (=0)
 
-  _mi_option_last
+    _mi_option_last
 } mi_option_t;
 
+bool mi_option_is_enabled(mi_option_t option);
+void mi_option_enable(mi_option_t option);
+void mi_option_disable(mi_option_t option);
+void mi_option_set_enabled(mi_option_t option, bool enable);
+void mi_option_set_enabled_default(mi_option_t option, bool enable);
 
-bool  mi_option_is_enabled(mi_option_t option);
-void  mi_option_enable(mi_option_t option);
-void  mi_option_disable(mi_option_t option);
-void  mi_option_set_enabled(mi_option_t option, bool enable);
-void  mi_option_set_enabled_default(mi_option_t option, bool enable);
-
-long   mi_option_get(mi_option_t option);
-long   mi_option_get_clamp(mi_option_t option, long min, long max);
+long mi_option_get(mi_option_t option);
+long mi_option_get_clamp(mi_option_t option, long min, long max);
 size_t mi_option_get_size(mi_option_t option);
 
-void  mi_option_set(mi_option_t option, long value);
-void  mi_option_set_default(mi_option_t option, long value);
-
+void mi_option_set(mi_option_t option, long value);
+void mi_option_set_default(mi_option_t option, long value);
 
 /// \}
 
@@ -971,39 +962,39 @@ void  mi_option_set_default(mi_option_t option, long value);
 /// \{
 
 /// Just as `free` but also checks if the pointer `p` belongs to our heap.
-void   mi_cfree(void* p);
-void* mi__expand(void* p, size_t newsize);
+void mi_cfree(void *p);
+void *mi__expand(void *p, size_t newsize);
 
-void*  mi_recalloc(void* p, size_t count, size_t size);
-size_t mi_malloc_size(const void* p);
+void *mi_recalloc(void *p, size_t count, size_t size);
+size_t mi_malloc_size(const void *p);
 size_t mi_malloc_good_size(size_t size);
 size_t mi_malloc_usable_size(const void *p);
 
-int mi_posix_memalign(void** p, size_t alignment, size_t size);
-int mi__posix_memalign(void** p, size_t alignment, size_t size);
-void* mi_memalign(size_t alignment, size_t size);
-void* mi_valloc(size_t size);
-void* mi_pvalloc(size_t size);
-void* mi_aligned_alloc(size_t alignment, size_t size);
+int mi_posix_memalign(void **p, size_t alignment, size_t size);
+int mi__posix_memalign(void **p, size_t alignment, size_t size);
+void *mi_memalign(size_t alignment, size_t size);
+void *mi_valloc(size_t size);
+void *mi_pvalloc(size_t size);
+void *mi_aligned_alloc(size_t alignment, size_t size);
 
-unsigned short* mi_wcsdup(const unsigned short* s);
-unsigned char*  mi_mbsdup(const unsigned char* s);
-int mi_dupenv_s(char** buf, size_t* size, const char* name);
-int mi_wdupenv_s(unsigned short** buf, size_t* size, const unsigned short* name);
+unsigned short *mi_wcsdup(const unsigned short *s);
+unsigned char *mi_mbsdup(const unsigned char *s);
+int mi_dupenv_s(char **buf, size_t *size, const char *name);
+int mi_wdupenv_s(unsigned short **buf, size_t *size, const unsigned short *name);
 
 /// Correspond s to [reallocarray](https://www.freebsd.org/cgi/man.cgi?query=reallocarray&sektion=3&manpath=freebsd-release-ports)
 /// in FreeBSD.
-void* mi_reallocarray(void* p, size_t count, size_t size);
+void *mi_reallocarray(void *p, size_t count, size_t size);
 
 /// Corresponds to [reallocarr](https://man.netbsd.org/reallocarr.3) in NetBSD.
-int   mi_reallocarr(void* p, size_t count, size_t size);
+int mi_reallocarr(void *p, size_t count, size_t size);
 
-void* mi_aligned_recalloc(void* p, size_t newcount, size_t size, size_t alignment);
-void* mi_aligned_offset_recalloc(void* p, size_t newcount, size_t size, size_t alignment, size_t offset);
+void *mi_aligned_recalloc(void *p, size_t newcount, size_t size, size_t alignment);
+void *mi_aligned_offset_recalloc(void *p, size_t newcount, size_t size, size_t alignment, size_t offset);
 
-void mi_free_size(void* p, size_t size);
-void mi_free_size_aligned(void* p, size_t size, size_t alignment);
-void mi_free_aligned(void* p, size_t alignment);
+void mi_free_size(void *p, size_t size);
+void mi_free_size_aligned(void *p, size_t size, size_t alignment);
+void mi_free_aligned(void *p, size_t alignment);
 
 /// \}
 
@@ -1021,25 +1012,25 @@ void mi_free_aligned(void* p, size_t alignment);
 /// \{
 
 /// like mi_malloc(), but when out of memory, use `std::get_new_handler` and raise `std::bad_alloc` exception on failure.
-void* mi_new(std::size_t n) noexcept(false);
+void *mi_new(std::size_t n) noexcept(false);
 
 /// like mi_mallocn(), but when out of memory, use `std::get_new_handler` and raise `std::bad_alloc` exception on failure.
-void* mi_new_n(size_t count, size_t size) noexcept(false);
+void *mi_new_n(size_t count, size_t size) noexcept(false);
 
 /// like mi_malloc_aligned(), but when out of memory, use `std::get_new_handler` and raise `std::bad_alloc` exception on failure.
-void* mi_new_aligned(std::size_t n, std::align_val_t alignment) noexcept(false);
+void *mi_new_aligned(std::size_t n, std::align_val_t alignment) noexcept(false);
 
 /// like `mi_malloc`, but when out of memory, use `std::get_new_handler` but return \a NULL on failure.
-void* mi_new_nothrow(size_t n);
+void *mi_new_nothrow(size_t n);
 
 /// like `mi_malloc_aligned`, but when out of memory, use `std::get_new_handler` but return \a NULL on failure.
-void* mi_new_aligned_nothrow(size_t n, size_t alignment);
+void *mi_new_aligned_nothrow(size_t n, size_t alignment);
 
 /// like mi_realloc(), but when out of memory, use `std::get_new_handler` and raise `std::bad_alloc` exception on failure.
-void* mi_new_realloc(void* p, size_t newsize);
+void *mi_new_realloc(void *p, size_t newsize);
 
 /// like mi_reallocn(), but when out of memory, use `std::get_new_handler` and raise `std::bad_alloc` exception on failure.
-void* mi_new_reallocn(void* p, size_t newcount, size_t size);
+void *mi_new_reallocn(void *p, size_t newcount, size_t size);
 
 /// \a std::allocator implementation for mimalloc for use in STL containers.
 /// For example:
@@ -1048,7 +1039,8 @@ void* mi_new_reallocn(void* p, size_t newcount, size_t size);
 /// vec.push_back(1);
 /// vec.pop_back();
 /// ```
-template<class T> struct mi_stl_allocator { }
+template <class T>
+struct mi_stl_allocator {}
 
 /// \}
 
@@ -1304,10 +1296,10 @@ the [shell](https://stackoverflow.com/questions/43941322/dyld-insert-libraries-i
 
 ### Dynamic Override on Windows
 
-<span id="override_on_windows">Dynamically overriding on mimalloc on Windows</span> 
-is robust and has the particular advantage to be able to redirect all malloc/free calls 
-that go through the (dynamic) C runtime allocator, including those from other DLL's or 
-libraries. As it intercepts all allocation calls on a low level, it can be used reliably 
+<span id="override_on_windows">Dynamically overriding on mimalloc on Windows</span>
+is robust and has the particular advantage to be able to redirect all malloc/free calls
+that go through the (dynamic) C runtime allocator, including those from other DLL's or
+libraries. As it intercepts all allocation calls on a low level, it can be used reliably
 on large programs that include other 3rd party components.
 There are four requirements to make the overriding work well:
 
@@ -1315,15 +1307,15 @@ There are four requirements to make the overriding work well:
 
 2. Link your program explicitly with the `mimalloc.lib` export library for the `mimalloc.dll`.
    (which must be compiled with `-DMI_OVERRIDE=ON`, which is the default though).
-   To ensure the `mimalloc.dll` is actually loaded at run-time it is easiest 
+   To ensure the `mimalloc.dll` is actually loaded at run-time it is easiest
    to insert some call to the mimalloc API in the `main` function, like `mi_version()`
    (or use the `/include:mi_version` switch on the linker command, or
-   similarly, `#pragma comment(linker, "/include:mi_version")` in some source file). 
-   See the `mimalloc-test-override` project for an example on how to use this. 
+   similarly, `#pragma comment(linker, "/include:mi_version")` in some source file).
+   See the `mimalloc-test-override` project for an example on how to use this.
 
-3. The `mimalloc-redirect.dll` must be put in the same directory as the main 
+3. The `mimalloc-redirect.dll` must be put in the same directory as the main
    `mimalloc.dll` at runtime (as it is a dependency of that DLL).
-   The redirection DLL ensures that all calls to the C runtime malloc API get 
+   The redirection DLL ensures that all calls to the C runtime malloc API get
    redirected to mimalloc functions (which reside in `mimalloc.dll`).
 
 4. Ensure the `mimalloc.dll` comes as early as possible in the import
@@ -1336,7 +1328,7 @@ is also recommended to also override the `new`/`delete` operations (by including
 a single(!) source file in your project).
 
 The environment variable `MIMALLOC_DISABLE_REDIRECT=1` can be used to disable dynamic
-overriding at run-time. Use `MIMALLOC_VERBOSE=1` to check if mimalloc was successfully 
+overriding at run-time. Use `MIMALLOC_VERBOSE=1` to check if mimalloc was successfully
 redirected.
 
 For different platforms than x64, you may need a specific [redirection dll](bin).
