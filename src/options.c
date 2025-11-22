@@ -559,10 +559,6 @@ void _mi_error_message(int err, const char *fmt, ...) {
 // Initialize options by checking the environment
 // --------------------------------------------------------
 
-// TODO: implement ourselves to reduce dependencies on the C runtime
-#include <stdlib.h> // strtol
-#include <string.h> // strstr
-
 static void mi_option_init(mi_option_desc_t *desc) {
     // Read option value from the environment
     char s[64 + 1];
@@ -585,15 +581,15 @@ static void mi_option_init(mi_option_desc_t *desc) {
             buf[i] = _mi_toupper(s[i]);
         }
         buf[len] = 0;
-        if (buf[0] == 0 || strstr("1;TRUE;YES;ON", buf) != NULL) {
+        if (buf[0] == 0 || _mi_strstr("1;TRUE;YES;ON", buf) != NULL) {
             desc->value = 1;
             desc->init = INITIALIZED;
-        } else if (strstr("0;FALSE;NO;OFF", buf) != NULL) {
+        } else if (_mi_strstr("0;FALSE;NO;OFF", buf) != NULL) {
             desc->value = 0;
             desc->init = INITIALIZED;
         } else {
             char *end = buf;
-            long value = strtol(buf, &end, 10);
+            long value = _mi_strtol(buf, &end, 10);
             if (mi_option_has_size_in_kib(desc->option)) {
                 // this option is interpreted in KiB to prevent overflow of `long` for large allocations
                 // (long is 32-bit on 64-bit windows, which allows for 4TiB max.)

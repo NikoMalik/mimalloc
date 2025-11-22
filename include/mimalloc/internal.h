@@ -104,10 +104,12 @@ int _mi_snprintf(char *buf, size_t buflen, const char *fmt, ...);
 char _mi_toupper(char c);
 int _mi_strnicmp(const char *s, const char *t, size_t n);
 void _mi_strlcpy(char *dest, const char *src, size_t dest_size);
+char *_mi_strstr(const char *haystack, const char *needle);
 void _mi_strlcat(char *dest, const char *src, size_t dest_size);
 size_t _mi_strlen(const char *s);
 size_t _mi_strnlen(const char *s, size_t max_len);
 bool _mi_getenv(const char *name, char *result, size_t result_size);
+long _mi_strtol(const char *nptr, char **endptr, int base);
 
 // "options.c"
 void _mi_fputs(mi_output_fun *out, void *arg, const char *prefix, const char *message);
@@ -1106,10 +1108,10 @@ static inline void _mi_memzero(void *dst, size_t n) {
 }
 #else
 static inline void _mi_memcpy(void *dst, const void *src, size_t n) {
-    memcpy(dst, src, n);
+    __builtin_memcpy(dst, src, n);
 }
 static inline void _mi_memzero(void *dst, size_t n) {
-    memset(dst, 0, n);
+    __builtin_memset(dst, 0, n);
 }
 #endif
 
