@@ -9,9 +9,6 @@ terms of the MIT license. A copy of the license can be found in the file
 #include "mimalloc/atomic.h"
 #include "mimalloc/prim.h" // mi_prim_out_stderr
 
-#include <stdio.h>  // stdin/stdout
-#include <stdlib.h> // abort
-
 static long mi_max_error_count = 16;   // stop outputting errors after this (use < 0 for no limit)
 static long mi_max_warning_count = 16; // stop outputting warnings after this (use < 0 for no limit)
 
@@ -407,7 +404,7 @@ static void mi_recurse_exit(void) {
 }
 
 void _mi_fputs(mi_output_fun *out, void *arg, const char *prefix, const char *message) {
-    if (out == NULL || (void *)out == (void *)stdout || (void *)out == (void *)stderr) { // TODO: use mi_out_stderr for stderr?
+    if (out == NULL || (void *)out == (void *)_mi_prim_out_stderr) { // TODO: use mi_out_stderr for stderr?
         if (!mi_recurse_enter())
             return;
         out = mi_out_get_default(&arg);
@@ -503,7 +500,7 @@ void _mi_warning_message(const char *fmt, ...) {
 #if MI_DEBUG
 mi_decl_noreturn mi_decl_cold void _mi_assert_fail(const char *assertion, const char *fname, unsigned line, const char *func) mi_attr_noexcept {
     _mi_fprintf(NULL, NULL, "mimalloc: assertion failed: at \"%s\":%u, %s\n  assertion: \"%s\"\n", fname, line, (func == NULL ? "" : func), assertion);
-    abort();
+    _mi_abort();
 }
 #endif
 
@@ -521,17 +518,17 @@ static void mi_error_default(int err) {
 #ifdef _MSC_VER
         __debugbreak();
 #endif
-        abort();
+        _mi_abort();
     }
 #endif
 #if (MI_SECURE > 0)
     if (err == EFAULT) { // abort on serious errors in secure mode (corrupted meta-data)
-        abort();
+        _mi_abort();
     }
 #endif
 #if defined(MI_XMALLOC)
     if (err == ENOMEM || err == EOVERFLOW) { // abort on memory allocation fails in xmalloc mode
-        abort();
+        _mi_abort();
     }
 #endif
 }
