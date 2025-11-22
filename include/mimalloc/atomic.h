@@ -358,11 +358,6 @@ static inline void mi_atomic_yield(void) {
 static inline void mi_atomic_yield(void) {
     YieldProcessor();
 }
-#elif defined(__SSE2__)
-#include <emmintrin.h>
-static inline void mi_atomic_yield(void) {
-    _mm_pause();
-}
 #elif (defined(__GNUC__) || defined(__clang__)) && \
     (defined(__x86_64__) || defined(__i386__) ||   \
      defined(__aarch64__) || defined(__arm__) ||   \
