@@ -186,7 +186,6 @@ void _mi_options_init(void) {
     }
 #endif
     if (mi_option_is_enabled(mi_option_verbose)) {
-        mi_options_print();
     }
 }
 
