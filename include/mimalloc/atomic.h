@@ -10,13 +10,10 @@ terms of the MIT license. A copy of the license can be found in the file
 
 // include windows.h or pthreads.h
 #if defined(_WIN32)
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include <windows.h>
+// windows.h
 #elif !defined(__wasi__) && (!defined(__EMSCRIPTEN__) || defined(__EMSCRIPTEN_PTHREADS__))
 #define MI_USE_PTHREADS
-#include <pthread.h>
+// #include <pthread.h>
 #endif
 // --------------------------------------------------------------------------------------------
 // Atomics
@@ -470,30 +467,41 @@ static inline void mi_lock_done(mi_lock_t *lock) {
 }
 
 #endif
-
 #elif defined(MI_USE_PTHREADS)
+typedef _Atomic(uintptr_t) mi_lock_t;
 
 void _mi_error_message(int err, const char *fmt, ...);
 
-#define mi_lock_t pthread_mutex_t
-
 static inline bool mi_lock_try_acquire(mi_lock_t *lock) {
-    return (pthread_mutex_trylock(lock) == 0);
+    uintptr_t expected = 0;
+    return mi_atomic_cas_strong_acq_rel(lock, &expected, (uintptr_t)1);
 }
+
 static inline void mi_lock_acquire(mi_lock_t *lock) {
-    const int err = pthread_mutex_lock(lock);
-    if (err != 0) {
-        _mi_error_message(err, "internal error: lock cannot be acquired\n");
+    for (int spins = 0;; spins++) {
+        if (mi_lock_try_acquire(lock))
+            return;
+
+        if (spins < 32) {
+            mi_atomic_yield();
+        } else {
+            for (int i = 0; i < (1 << (spins < 10 ? spins : 10)); i++) {
+                mi_atomic_yield();
+            }
+        }
     }
 }
+
 static inline void mi_lock_release(mi_lock_t *lock) {
-    pthread_mutex_unlock(lock);
+    mi_atomic_store_release(lock, 0);
 }
+
 static inline void mi_lock_init(mi_lock_t *lock) {
-    pthread_mutex_init(lock, NULL);
+    mi_atomic_store_relaxed(lock, 0);
 }
+
 static inline void mi_lock_done(mi_lock_t *lock) {
-    pthread_mutex_destroy(lock);
+    (void)lock;
 }
 
 #elif defined(__cplusplus)
