@@ -13,9 +13,6 @@ terms of the MIT license. A copy of the license can be found in the file
 #include "mimalloc/atomic.h"
 #include "mimalloc/prim.h" // _mi_prim_thread_id()
 
-#include <string.h> // memset, strlen (for mi_strdup)
-#include <stdlib.h> // malloc, abort
-
 #define MI_IN_ALLOC_C
 #include "alloc-override.c"
 #include "free.c"
@@ -73,7 +70,7 @@ extern inline void *_mi_page_malloc_zero(mi_heap_t *heap, mi_page_t *page, size_
 
 #if (MI_DEBUG > 0) && !MI_TRACK_ENABLED && !MI_TSAN
     if (!zero && !mi_page_is_huge(page)) {
-        memset(block, MI_DEBUG_UNINIT, mi_page_usable_block_size(page));
+        _mi_memset(block, MI_DEBUG_UNINIT, mi_page_usable_block_size(page));
     }
 #elif (MI_SECURE != 0)
     if (!zero) {
@@ -507,7 +504,7 @@ static bool mi_try_new_handler(bool nothrow) {
     if (h == NULL) {
         _mi_error_message(ENOMEM, "out of memory in 'new'");
         if (!nothrow) {
-            abort(); // cannot throw in plain C, use abort
+            _mi_abort(); // cannot throw in plain C, use abort
         }
         return false;
     } else {

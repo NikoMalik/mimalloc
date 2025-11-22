@@ -1106,6 +1106,12 @@ static inline void _mi_memcpy(void *dst, const void *src, size_t n) {
 static inline void _mi_memzero(void *dst, size_t n) {
     __builtin_memset(dst, 0, n);
 }
+static inline void _mi_memset(void *dst, int i, size_t n) {
+    __builtin_memset(dst, i, n);
+}
+static inline void _mi_abort(void) {
+    __builtin_trap();
+}
 #endif
 
 // -------------------------------------------------------------------------------
