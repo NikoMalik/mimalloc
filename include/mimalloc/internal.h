@@ -19,6 +19,7 @@ terms of the MIT license. A copy of the license can be found in the file
 // --------------------------------------------------------------------------
 // Compiler defines
 // --------------------------------------------------------------------------
+//
 
 #if (MI_DEBUG > 0)
 #define mi_trace_message(...) _mi_trace_message(__VA_ARGS__)
@@ -104,7 +105,7 @@ int _mi_snprintf(char *buf, size_t buflen, const char *fmt, ...);
 char _mi_toupper(char c);
 int _mi_strnicmp(const char *s, const char *t, size_t n);
 void _mi_strlcpy(char *dest, const char *src, size_t dest_size);
-char *_mi_strstr(const char *haystack, const char *needle);
+static inline const char *_mi_strstr(const char *haystack, const char *needle);
 void _mi_strlcat(char *dest, const char *src, size_t dest_size);
 size_t _mi_strlen(const char *s);
 size_t _mi_strnlen(const char *s, size_t max_len);

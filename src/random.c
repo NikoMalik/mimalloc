@@ -16,7 +16,7 @@ performance but we do rely on the security (for secret cookies in secure mode)
 we use a cryptographically secure generator (chacha20).
 -----------------------------------------------------------------------------*/
 
-#define MI_CHACHA_ROUNDS (20) // perhaps use 12 for better performance?
+#define MI_CHACHA_ROUNDS (12) // perhaps use 12 for better performance?
 
 /* ----------------------------------------------------------------------------
 Chacha20 implementation as the original algorithm with a 64-bit nonce

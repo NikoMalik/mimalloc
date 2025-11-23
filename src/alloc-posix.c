@@ -154,9 +154,10 @@ int mi_dupenv_s(char **buf, size_t *size, const char *name) mi_attr_noexcept {
         return EINVAL;
     if (size != NULL)
         *size = 0;
-    char *p = getenv(name); // mscver warning 4996
-    if (p == NULL) {
-        *buf = NULL;
+    char temp[256];
+    bool found = _mi_getenv(name, temp, sizeof(temp)); // mscver warning 4996
+    if (!found) {
+        return 0;
     } else {
         *buf = mi_strdup(p);
         if (*buf == NULL)
